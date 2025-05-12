@@ -104,6 +104,86 @@
 
 // 9.form controls
 
+// const express = require('express');
+// const app = express();
+// const dbConnection = require('./config/db');
+// const userModel = require('./models/user');
+// const morgan = require('morgan');
+
+// app.use(morgan('dev'));
+
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.static('public'));
+
+// app.set('view engine', 'ejs');
+
+
+// app.get('/',(req,res)=>{
+//     res.render('index');
+// })
+// // app.get('/get-form-data',(req,res)=>{
+// //     console.log(req.query);
+// //     res.send('Form data received');
+    
+// // })
+// app.post('/get-form-data',(req,res)=>{
+//     console.log(req.body);
+//     res.send('Form data received');
+    
+// })
+// app.listen(3000, () => {
+//     console.log('Server is running on port 3000');
+// });
+
+// 10.
+// const express = require('express');
+// const app = express();
+// const dbConnection = require('./config/db');
+// const userModel = require('./models/user');
+// const morgan = require('morgan');
+
+// app.use(morgan('dev'));
+
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.static('public'));
+
+// app.set('view engine', 'ejs');
+
+
+
+// app.get('/register',(req,res)=>{
+//     res.render('register');
+// })
+// app.post('/register',async(req,res)=>{
+//     // console.log(req.body);
+//     const { username, email, password } = req.body;
+//     // await userModel.create({
+//     //     username: username,
+//     //     email: email,
+//     //     password: password
+//     // })
+//     // res.send('user registered');
+    
+//     const newuser =await userModel.create({
+//         username: username,
+//         email: email,
+//         password: password
+//     })
+//     res.send(newuser);
+    
+// })
+
+// // })
+
+// app.listen(3000, () => {
+//     console.log('Server is running on port 3000');
+// });
+
+
+// 11. CRUD operations
+
 const express = require('express');
 const app = express();
 const dbConnection = require('./config/db');
@@ -119,19 +199,64 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 
-app.get('/',(req,res)=>{
-    res.render('index');
+
+app.get('/register',(req,res)=>{
+    res.render('register');
 })
-// app.get('/get-form-data',(req,res)=>{
-//     console.log(req.query);
-//     res.send('Form data received');
+app.post('/register',async(req,res)=>{
+    // console.log(req.body);
+    const { username, email, password } = req.body;
+    // await userModel.create({
+    //     username: username,
+    //     email: email,
+    //     password: password
+    // })
+    // res.send('user registered');
     
-// })
-app.post('/get-form-data',(req,res)=>{
-    console.log(req.body);
-    res.send('Form data received');
+    const newuser =await userModel.create({
+        username: username,
+        email: email,
+        password: password
+    })
+    res.send(newuser);
     
 })
+
+app.get('/get-users',(req,res)=>{
+    // userModel.find({
+    //     username: 'John'
+    // }).then((users)=>{
+    //     console.log(users);
+    //     res.send(users);
+    // })
+    userModel.findOne({
+        username: 'John'
+    }).then((users)=>{
+        console.log(users);
+        res.send(users);
+    })
+    
+    
+}
+)
+// UPDATE
+app.get('/update-user',async(req,res)=>{
+    await userModel.findOneAndUpdate({
+        username: 'John'
+    },{
+        username: 'John Doe'
+    })
+    res.send('User updated');
+})
+
+// DELETE
+app.get('/delete-user',async(req,res)=>{
+    await userModel.findOneAndDelete({
+        username: 'John Doe'
+    })
+    res.send('User deleted');
+})
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
